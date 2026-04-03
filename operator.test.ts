@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, expectTypeOf, it } from "vitest";
 import { operator, Result } from "./operator";
 import { resource } from "./resource";
 import { z } from "./schema";
@@ -162,6 +162,15 @@ describe("operator builder", () => {
     expect(cfg.periodicInterval).toBe("10m");
     expect(cfg.permissions).toHaveLength(1);
     expect(typeof cfg.reconcileFn).toBe("function");
+  });
+
+  it("infers reconcile cr type from watched resource", () => {
+    operator(watchRes).reconcile((cr) => {
+      expectTypeOf(cr.spec.image).toEqualTypeOf<string>();
+      expectTypeOf(cr.spec.replicas).toEqualTypeOf<number>();
+      expectTypeOf(cr.metadata.name).toEqualTypeOf<string>();
+      return Result.ok();
+    });
   });
 
   it("every method returns builder (chaining)", () => {

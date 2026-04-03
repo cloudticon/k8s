@@ -6,9 +6,13 @@ export interface Permission {
   verbs: string[];
 }
 
-export interface OperatorConfig {
+type ReconcileFn<TWatch extends ResourceFn<any>> = (
+  cr: ReturnType<TWatch>,
+) => any;
+
+export interface OperatorConfig<TWatch extends ResourceFn<any> = ResourceFn<any>> {
   watch: GVK;
-  watchSchema: ResourceFn["openAPISchema"];
+  watchSchema: TWatch["openAPISchema"];
   watchScope: ResourceScope;
   watchShortNames?: string[];
   manages: GVK[];
@@ -16,20 +20,24 @@ export interface OperatorConfig {
   permissions: Permission[];
   envVars: string[];
   periodicInterval: string | null;
-  reconcileFn: ((cr: any) => any) | null;
+  reconcileFn: ReconcileFn<TWatch> | null;
 }
 
-export interface OperatorBuilder {
-  manages(...resources: ResourceFn<any>[]): OperatorBuilder;
-  reads(...resources: ResourceFn<any>[]): OperatorBuilder;
-  permission(perm: Permission): OperatorBuilder;
-  env(...vars: string[]): OperatorBuilder;
-  every(interval: string): OperatorBuilder;
-  reconcile(fn: (cr: any) => any): OperatorBuilder;
+export interface OperatorBuilder<
+  TWatch extends ResourceFn<any> = ResourceFn<any>,
+> {
+  manages(...resources: ResourceFn<any>[]): OperatorBuilder<TWatch>;
+  reads(...resources: ResourceFn<any>[]): OperatorBuilder<TWatch>;
+  permission(perm: Permission): OperatorBuilder<TWatch>;
+  env(...vars: string[]): OperatorBuilder<TWatch>;
+  every(interval: string): OperatorBuilder<TWatch>;
+  reconcile(fn: ReconcileFn<TWatch>): OperatorBuilder<TWatch>;
 }
 
-export function operator(watchResource: ResourceFn<any>): OperatorBuilder {
-  const config: OperatorConfig = {
+export function operator<TWatch extends ResourceFn<any>>(
+  watchResource: TWatch,
+): OperatorBuilder<TWatch> {
+  const config: OperatorConfig<TWatch> = {
     watch: watchResource.gvk,
     watchSchema: watchResource.openAPISchema,
     watchScope: watchResource.scope,
@@ -42,7 +50,7 @@ export function operator(watchResource: ResourceFn<any>): OperatorBuilder {
     reconcileFn: null,
   };
 
-  const builder: OperatorBuilder = {
+  const builder: OperatorBuilder<TWatch> = {
     manages(...resources) {
       config.manages = resources.map((r) => r.gvk);
       return builder;

@@ -1,5 +1,5 @@
-import { beforeEach, describe, expect, it } from "vitest";
-import { resource } from "./resource";
+import { beforeEach, describe, expect, expectTypeOf, it } from "vitest";
+import { resource, type MetadataArgs, type ResourceManifest } from "./resource";
 import { z } from "./schema";
 
 describe("resource", () => {
@@ -174,6 +174,46 @@ describe("resource", () => {
       r({ name: "a", f: "1" });
       r({ name: "b", f: "2" });
       expect((globalThis as any).__ct_resources).toHaveLength(2);
+    });
+  });
+
+  describe("type inference", () => {
+    it("args include MetadataArgs & typed spec fields", () => {
+      const r = resource("test/v1", "Test", {
+        spec: { image: z.string(), replicas: z.number().default(1) },
+      });
+      type Args = Parameters<typeof r>[0];
+      expectTypeOf<Args>().toEqualTypeOf<
+        MetadataArgs & { image: string; replicas?: number }
+      >();
+    });
+
+    it("manifest spec is typed", () => {
+      const r = resource("test/v1", "Test", {
+        spec: { image: z.string() },
+      });
+      type Manifest = ReturnType<typeof r>;
+      expectTypeOf<Manifest["spec"]>().toEqualTypeOf<{ image: string }>();
+    });
+
+    it("manifest has generic ResourceManifest type", () => {
+      const r = resource("test/v1", "Test", {
+        spec: { port: z.number(), host: z.string().optional() },
+      });
+      type Manifest = ReturnType<typeof r>;
+      expectTypeOf<Manifest>().toMatchTypeOf<
+        ResourceManifest<{ port: number; host?: string }>
+      >();
+    });
+
+    it("enum spec fields infer literal union", () => {
+      const r = resource("test/v1", "Test", {
+        spec: { mode: z.enum(["fast", "slow"]) },
+      });
+      type Args = Parameters<typeof r>[0];
+      expectTypeOf<Args>().toEqualTypeOf<
+        MetadataArgs & { mode: "fast" | "slow" }
+      >();
     });
   });
 });

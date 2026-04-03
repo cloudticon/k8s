@@ -20,15 +20,15 @@ export interface OperatorConfig {
 }
 
 export interface OperatorBuilder {
-  manages(...resources: ResourceFn[]): OperatorBuilder;
-  reads(...resources: ResourceFn[]): OperatorBuilder;
+  manages(...resources: ResourceFn<any>[]): OperatorBuilder;
+  reads(...resources: ResourceFn<any>[]): OperatorBuilder;
   permission(perm: Permission): OperatorBuilder;
   env(...vars: string[]): OperatorBuilder;
   every(interval: string): OperatorBuilder;
   reconcile(fn: (cr: any) => any): OperatorBuilder;
 }
 
-export function operator(watchResource: ResourceFn): OperatorBuilder {
+export function operator(watchResource: ResourceFn<any>): OperatorBuilder {
   const config: OperatorConfig = {
     watch: watchResource.gvk,
     watchSchema: watchResource.openAPISchema,

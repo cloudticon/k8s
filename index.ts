@@ -1,4 +1,4 @@
-export { z, type ZType, type TypeDef } from "./schema";
+export { z, type ZType, type TypeDef, type Infer, type InferShape } from "./schema";
 export { toOpenAPI } from "./openapi";
 export {
   resource,
@@ -7,6 +7,7 @@ export {
   type ResourceScope,
   type ResourceOpts,
   type ResourceArgs,
+  type MetadataArgs,
   type ResourceManifest,
 } from "./resource";
 export {

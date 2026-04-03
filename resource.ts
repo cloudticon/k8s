@@ -1,5 +1,5 @@
 import { toOpenAPI } from "./openapi";
-import { z, type ZType } from "./schema";
+import { z, type InferShape, type ZType } from "./schema";
 
 export interface GVK {
   group: string;
@@ -9,22 +9,27 @@ export interface GVK {
 
 export type ResourceScope = "Namespaced" | "Cluster";
 
-export interface ResourceOpts {
+export interface ResourceOpts<
+  TSpec extends Record<string, ZType<any>> = Record<string, ZType<any>>,
+> {
   scope?: ResourceScope;
   shortNames?: string[];
-  spec: Record<string, ZType>;
-  status?: Record<string, ZType>;
+  spec: TSpec;
+  status?: Record<string, ZType<any>>;
 }
 
-export interface ResourceArgs {
+export interface MetadataArgs {
   name: string;
   namespace?: string;
   labels?: Record<string, string>;
   annotations?: Record<string, string>;
+}
+
+export interface ResourceArgs extends MetadataArgs {
   [key: string]: unknown;
 }
 
-export interface ResourceManifest {
+export interface ResourceManifest<TSpec = Record<string, unknown>> {
   apiVersion: string;
   kind: string;
   metadata: {
@@ -33,11 +38,11 @@ export interface ResourceManifest {
     labels?: Record<string, string>;
     annotations?: Record<string, string>;
   };
-  spec: Record<string, unknown>;
+  spec: TSpec;
 }
 
-export interface ResourceFn {
-  (args: ResourceArgs): ResourceManifest;
+export interface ResourceFn<TSpec = Record<string, unknown>> {
+  (args: MetadataArgs & TSpec): ResourceManifest<TSpec>;
   gvk: GVK;
   scope: ResourceScope;
   shortNames?: string[];
@@ -53,21 +58,25 @@ const parseApiVersion = (s: string): [string, string] => {
   return slash === -1 ? ["", s] : [s.slice(0, slash), s.slice(slash + 1)];
 };
 
-const compactObject = <T extends Record<string, unknown>>(obj: T): Partial<T> =>
+const compactObject = <T extends Record<string, unknown>>(
+  obj: T,
+): Partial<T> =>
   Object.fromEntries(
     Object.entries(obj).filter(([, v]) => v !== undefined),
   ) as Partial<T>;
 
-export function resource(
+export function resource<TSpec extends Record<string, ZType<any>>>(
   apiVersionStr: string,
   kind: string,
-  opts: ResourceOpts,
-): ResourceFn {
+  opts: ResourceOpts<TSpec>,
+): ResourceFn<InferShape<TSpec>> {
   const [group, version] = parseApiVersion(apiVersionStr);
 
-  const fn = ((args: ResourceArgs): ResourceManifest => {
+  type Spec = InferShape<TSpec>;
+
+  const fn = ((args: MetadataArgs & Spec): ResourceManifest<Spec> => {
     const { name, namespace, labels, annotations, ...specFields } = args;
-    const manifest: ResourceManifest = {
+    const manifest: ResourceManifest<Spec> = {
       apiVersion: apiVersionStr,
       kind,
       metadata: compactObject({
@@ -75,12 +84,12 @@ export function resource(
         namespace,
         labels,
         annotations,
-      }) as ResourceManifest["metadata"],
-      spec: specFields,
+      }) as ResourceManifest<Spec>["metadata"],
+      spec: specFields as unknown as Spec,
     };
     (globalThis as any).__ct_resources.push(manifest);
     return manifest;
-  }) as ResourceFn;
+  }) as ResourceFn<Spec>;
 
   fn.gvk = { group, version, kind };
   fn.scope = opts.scope ?? "Namespaced";

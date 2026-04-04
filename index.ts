@@ -28,6 +28,8 @@ export * from "./resources/networking-k8s-io/v1";
 export * from "./resources/policy/v1";
 export * from "./resources/rbac-authorization-k8s-io/v1";
 export * from "./resources/storage-k8s-io/v1";
+export * from "./resources/acme-cert-manager-io/v1";
+export * from "./resources/cert-manager-io/v1";
 
 // Istio resources (v1 preferred; unique names from older API versions)
 export * from "./resources/networking-istio-io/v1";

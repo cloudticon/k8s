@@ -293,352 +293,356 @@ export const persistentVolumeClaim = /* @__PURE__ */ resource(
   },
 );
 
-export const persistentVolume = /* @__PURE__ */ resource("core/v1", "PersistentVolume", {
-  scope: "Cluster",
-  spec: {
-    accessModes: z.array(z.string().default("")).optional(),
-    awsElasticBlockStore: z
-      .object({
-        fsType: z.string().optional(),
-        partition: z.number().optional(),
-        readOnly: z.boolean().optional(),
-        volumeID: z.string().default(""),
-      })
-      .optional(),
-    azureDisk: z
-      .object({
-        cachingMode: z.string().optional(),
-        diskName: z.string().default(""),
-        diskURI: z.string().default(""),
-        fsType: z.string().optional(),
-        kind: z.string().optional(),
-        readOnly: z.boolean().optional(),
-      })
-      .optional(),
-    azureFile: z
-      .object({
-        readOnly: z.boolean().optional(),
-        secretName: z.string().default(""),
-        secretNamespace: z.string().optional(),
-        shareName: z.string().default(""),
-      })
-      .optional(),
-    capacity: z.record(z.string().default({})).optional(),
-    cephfs: z
-      .object({
-        monitors: z.array(z.string().default("")),
-        path: z.string().optional(),
-        readOnly: z.boolean().optional(),
-        secretFile: z.string().optional(),
-        secretRef: z
-          .object({
-            name: z.string().optional(),
-            namespace: z.string().optional(),
-          })
-          .optional(),
-        user: z.string().optional(),
-      })
-      .optional(),
-    cinder: z
-      .object({
-        fsType: z.string().optional(),
-        readOnly: z.boolean().optional(),
-        secretRef: z
-          .object({
-            name: z.string().optional(),
-            namespace: z.string().optional(),
-          })
-          .optional(),
-        volumeID: z.string().default(""),
-      })
-      .optional(),
-    claimRef: z
-      .object({
-        apiVersion: z.string().optional(),
-        fieldPath: z.string().optional(),
-        kind: z.string().optional(),
-        name: z.string().optional(),
-        namespace: z.string().optional(),
-        resourceVersion: z.string().optional(),
-        uid: z.string().optional(),
-      })
-      .optional(),
-    csi: z
-      .object({
-        controllerExpandSecretRef: z
-          .object({
-            name: z.string().optional(),
-            namespace: z.string().optional(),
-          })
-          .optional(),
-        controllerPublishSecretRef: z
-          .object({
-            name: z.string().optional(),
-            namespace: z.string().optional(),
-          })
-          .optional(),
-        driver: z.string().default(""),
-        fsType: z.string().optional(),
-        nodeExpandSecretRef: z
-          .object({
-            name: z.string().optional(),
-            namespace: z.string().optional(),
-          })
-          .optional(),
-        nodePublishSecretRef: z
-          .object({
-            name: z.string().optional(),
-            namespace: z.string().optional(),
-          })
-          .optional(),
-        nodeStageSecretRef: z
-          .object({
-            name: z.string().optional(),
-            namespace: z.string().optional(),
-          })
-          .optional(),
-        readOnly: z.boolean().optional(),
-        volumeAttributes: z.record(z.string().default("")).optional(),
-        volumeHandle: z.string().default(""),
-      })
-      .optional(),
-    fc: z
-      .object({
-        fsType: z.string().optional(),
-        lun: z.number().optional(),
-        readOnly: z.boolean().optional(),
-        targetWWNs: z.array(z.string().default("")).optional(),
-        wwids: z.array(z.string().default("")).optional(),
-      })
-      .optional(),
-    flexVolume: z
-      .object({
-        driver: z.string().default(""),
-        fsType: z.string().optional(),
-        options: z.record(z.string().default("")).optional(),
-        readOnly: z.boolean().optional(),
-        secretRef: z
-          .object({
-            name: z.string().optional(),
-            namespace: z.string().optional(),
-          })
-          .optional(),
-      })
-      .optional(),
-    flocker: z
-      .object({
-        datasetName: z.string().optional(),
-        datasetUUID: z.string().optional(),
-      })
-      .optional(),
-    gcePersistentDisk: z
-      .object({
-        fsType: z.string().optional(),
-        partition: z.number().optional(),
-        pdName: z.string().default(""),
-        readOnly: z.boolean().optional(),
-      })
-      .optional(),
-    glusterfs: z
-      .object({
-        endpoints: z.string().default(""),
-        endpointsNamespace: z.string().optional(),
-        path: z.string().default(""),
-        readOnly: z.boolean().optional(),
-      })
-      .optional(),
-    hostPath: z
-      .object({
-        path: z.string().default(""),
-        type: z.string().optional(),
-      })
-      .optional(),
-    iscsi: z
-      .object({
-        chapAuthDiscovery: z.boolean().optional(),
-        chapAuthSession: z.boolean().optional(),
-        fsType: z.string().optional(),
-        initiatorName: z.string().optional(),
-        iqn: z.string().default(""),
-        iscsiInterface: z.string().optional(),
-        lun: z.number().default(0),
-        portals: z.array(z.string().default("")).optional(),
-        readOnly: z.boolean().optional(),
-        secretRef: z
-          .object({
-            name: z.string().optional(),
-            namespace: z.string().optional(),
-          })
-          .optional(),
-        targetPortal: z.string().default(""),
-      })
-      .optional(),
-    local: z
-      .object({
-        fsType: z.string().optional(),
-        path: z.string().default(""),
-      })
-      .optional(),
-    mountOptions: z.array(z.string().default("")).optional(),
-    nfs: z
-      .object({
-        path: z.string().default(""),
-        readOnly: z.boolean().optional(),
-        server: z.string().default(""),
-      })
-      .optional(),
-    nodeAffinity: z
-      .object({
-        required: z
-          .object({
-            nodeSelectorTerms: z.array(
-              z
-                .object({
-                  matchExpressions: z
-                    .array(
-                      z
-                        .object({
-                          key: z.string().default(""),
-                          operator: z
-                            .enum([
-                              "DoesNotExist",
-                              "Exists",
-                              "Gt",
-                              "In",
-                              "Lt",
-                              "NotIn",
-                            ])
-                            .default(""),
-                          values: z.array(z.string().default("")).optional(),
-                        })
-                        .default({}),
-                    )
-                    .optional(),
-                  matchFields: z
-                    .array(
-                      z
-                        .object({
-                          key: z.string().default(""),
-                          operator: z
-                            .enum([
-                              "DoesNotExist",
-                              "Exists",
-                              "Gt",
-                              "In",
-                              "Lt",
-                              "NotIn",
-                            ])
-                            .default(""),
-                          values: z.array(z.string().default("")).optional(),
-                        })
-                        .default({}),
-                    )
-                    .optional(),
-                })
-                .default({}),
-            ),
-          })
-          .optional(),
-      })
-      .optional(),
-    persistentVolumeReclaimPolicy: z
-      .enum(["Delete", "Recycle", "Retain"])
-      .optional(),
-    photonPersistentDisk: z
-      .object({
-        fsType: z.string().optional(),
-        pdID: z.string().default(""),
-      })
-      .optional(),
-    portworxVolume: z
-      .object({
-        fsType: z.string().optional(),
-        readOnly: z.boolean().optional(),
-        volumeID: z.string().default(""),
-      })
-      .optional(),
-    quobyte: z
-      .object({
-        group: z.string().optional(),
-        readOnly: z.boolean().optional(),
-        registry: z.string().default(""),
-        tenant: z.string().optional(),
-        user: z.string().optional(),
-        volume: z.string().default(""),
-      })
-      .optional(),
-    rbd: z
-      .object({
-        fsType: z.string().optional(),
-        image: z.string().default(""),
-        keyring: z.string().optional(),
-        monitors: z.array(z.string().default("")),
-        pool: z.string().optional(),
-        readOnly: z.boolean().optional(),
-        secretRef: z
-          .object({
-            name: z.string().optional(),
-            namespace: z.string().optional(),
-          })
-          .optional(),
-        user: z.string().optional(),
-      })
-      .optional(),
-    scaleIO: z
-      .object({
-        fsType: z.string().optional(),
-        gateway: z.string().default(""),
-        protectionDomain: z.string().optional(),
-        readOnly: z.boolean().optional(),
-        secretRef: z.object({
+export const persistentVolume = /* @__PURE__ */ resource(
+  "core/v1",
+  "PersistentVolume",
+  {
+    scope: "Cluster",
+    spec: {
+      accessModes: z.array(z.string().default("")).optional(),
+      awsElasticBlockStore: z
+        .object({
+          fsType: z.string().optional(),
+          partition: z.number().optional(),
+          readOnly: z.boolean().optional(),
+          volumeID: z.string().default(""),
+        })
+        .optional(),
+      azureDisk: z
+        .object({
+          cachingMode: z.string().optional(),
+          diskName: z.string().default(""),
+          diskURI: z.string().default(""),
+          fsType: z.string().optional(),
+          kind: z.string().optional(),
+          readOnly: z.boolean().optional(),
+        })
+        .optional(),
+      azureFile: z
+        .object({
+          readOnly: z.boolean().optional(),
+          secretName: z.string().default(""),
+          secretNamespace: z.string().optional(),
+          shareName: z.string().default(""),
+        })
+        .optional(),
+      capacity: z.record(z.string().default({})).optional(),
+      cephfs: z
+        .object({
+          monitors: z.array(z.string().default("")),
+          path: z.string().optional(),
+          readOnly: z.boolean().optional(),
+          secretFile: z.string().optional(),
+          secretRef: z
+            .object({
+              name: z.string().optional(),
+              namespace: z.string().optional(),
+            })
+            .optional(),
+          user: z.string().optional(),
+        })
+        .optional(),
+      cinder: z
+        .object({
+          fsType: z.string().optional(),
+          readOnly: z.boolean().optional(),
+          secretRef: z
+            .object({
+              name: z.string().optional(),
+              namespace: z.string().optional(),
+            })
+            .optional(),
+          volumeID: z.string().default(""),
+        })
+        .optional(),
+      claimRef: z
+        .object({
+          apiVersion: z.string().optional(),
+          fieldPath: z.string().optional(),
+          kind: z.string().optional(),
           name: z.string().optional(),
           namespace: z.string().optional(),
-        }),
-        sslEnabled: z.boolean().optional(),
-        storageMode: z.string().optional(),
-        storagePool: z.string().optional(),
-        system: z.string().default(""),
-        volumeName: z.string().optional(),
-      })
-      .optional(),
-    storageClassName: z.string().optional(),
-    storageos: z
-      .object({
-        fsType: z.string().optional(),
-        readOnly: z.boolean().optional(),
-        secretRef: z
-          .object({
-            apiVersion: z.string().optional(),
-            fieldPath: z.string().optional(),
-            kind: z.string().optional(),
+          resourceVersion: z.string().optional(),
+          uid: z.string().optional(),
+        })
+        .optional(),
+      csi: z
+        .object({
+          controllerExpandSecretRef: z
+            .object({
+              name: z.string().optional(),
+              namespace: z.string().optional(),
+            })
+            .optional(),
+          controllerPublishSecretRef: z
+            .object({
+              name: z.string().optional(),
+              namespace: z.string().optional(),
+            })
+            .optional(),
+          driver: z.string().default(""),
+          fsType: z.string().optional(),
+          nodeExpandSecretRef: z
+            .object({
+              name: z.string().optional(),
+              namespace: z.string().optional(),
+            })
+            .optional(),
+          nodePublishSecretRef: z
+            .object({
+              name: z.string().optional(),
+              namespace: z.string().optional(),
+            })
+            .optional(),
+          nodeStageSecretRef: z
+            .object({
+              name: z.string().optional(),
+              namespace: z.string().optional(),
+            })
+            .optional(),
+          readOnly: z.boolean().optional(),
+          volumeAttributes: z.record(z.string().default("")).optional(),
+          volumeHandle: z.string().default(""),
+        })
+        .optional(),
+      fc: z
+        .object({
+          fsType: z.string().optional(),
+          lun: z.number().optional(),
+          readOnly: z.boolean().optional(),
+          targetWWNs: z.array(z.string().default("")).optional(),
+          wwids: z.array(z.string().default("")).optional(),
+        })
+        .optional(),
+      flexVolume: z
+        .object({
+          driver: z.string().default(""),
+          fsType: z.string().optional(),
+          options: z.record(z.string().default("")).optional(),
+          readOnly: z.boolean().optional(),
+          secretRef: z
+            .object({
+              name: z.string().optional(),
+              namespace: z.string().optional(),
+            })
+            .optional(),
+        })
+        .optional(),
+      flocker: z
+        .object({
+          datasetName: z.string().optional(),
+          datasetUUID: z.string().optional(),
+        })
+        .optional(),
+      gcePersistentDisk: z
+        .object({
+          fsType: z.string().optional(),
+          partition: z.number().optional(),
+          pdName: z.string().default(""),
+          readOnly: z.boolean().optional(),
+        })
+        .optional(),
+      glusterfs: z
+        .object({
+          endpoints: z.string().default(""),
+          endpointsNamespace: z.string().optional(),
+          path: z.string().default(""),
+          readOnly: z.boolean().optional(),
+        })
+        .optional(),
+      hostPath: z
+        .object({
+          path: z.string().default(""),
+          type: z.string().optional(),
+        })
+        .optional(),
+      iscsi: z
+        .object({
+          chapAuthDiscovery: z.boolean().optional(),
+          chapAuthSession: z.boolean().optional(),
+          fsType: z.string().optional(),
+          initiatorName: z.string().optional(),
+          iqn: z.string().default(""),
+          iscsiInterface: z.string().optional(),
+          lun: z.number().default(0),
+          portals: z.array(z.string().default("")).optional(),
+          readOnly: z.boolean().optional(),
+          secretRef: z
+            .object({
+              name: z.string().optional(),
+              namespace: z.string().optional(),
+            })
+            .optional(),
+          targetPortal: z.string().default(""),
+        })
+        .optional(),
+      local: z
+        .object({
+          fsType: z.string().optional(),
+          path: z.string().default(""),
+        })
+        .optional(),
+      mountOptions: z.array(z.string().default("")).optional(),
+      nfs: z
+        .object({
+          path: z.string().default(""),
+          readOnly: z.boolean().optional(),
+          server: z.string().default(""),
+        })
+        .optional(),
+      nodeAffinity: z
+        .object({
+          required: z
+            .object({
+              nodeSelectorTerms: z.array(
+                z
+                  .object({
+                    matchExpressions: z
+                      .array(
+                        z
+                          .object({
+                            key: z.string().default(""),
+                            operator: z
+                              .enum([
+                                "DoesNotExist",
+                                "Exists",
+                                "Gt",
+                                "In",
+                                "Lt",
+                                "NotIn",
+                              ])
+                              .default(""),
+                            values: z.array(z.string().default("")).optional(),
+                          })
+                          .default({}),
+                      )
+                      .optional(),
+                    matchFields: z
+                      .array(
+                        z
+                          .object({
+                            key: z.string().default(""),
+                            operator: z
+                              .enum([
+                                "DoesNotExist",
+                                "Exists",
+                                "Gt",
+                                "In",
+                                "Lt",
+                                "NotIn",
+                              ])
+                              .default(""),
+                            values: z.array(z.string().default("")).optional(),
+                          })
+                          .default({}),
+                      )
+                      .optional(),
+                  })
+                  .default({}),
+              ),
+            })
+            .optional(),
+        })
+        .optional(),
+      persistentVolumeReclaimPolicy: z
+        .enum(["Delete", "Recycle", "Retain"])
+        .optional(),
+      photonPersistentDisk: z
+        .object({
+          fsType: z.string().optional(),
+          pdID: z.string().default(""),
+        })
+        .optional(),
+      portworxVolume: z
+        .object({
+          fsType: z.string().optional(),
+          readOnly: z.boolean().optional(),
+          volumeID: z.string().default(""),
+        })
+        .optional(),
+      quobyte: z
+        .object({
+          group: z.string().optional(),
+          readOnly: z.boolean().optional(),
+          registry: z.string().default(""),
+          tenant: z.string().optional(),
+          user: z.string().optional(),
+          volume: z.string().default(""),
+        })
+        .optional(),
+      rbd: z
+        .object({
+          fsType: z.string().optional(),
+          image: z.string().default(""),
+          keyring: z.string().optional(),
+          monitors: z.array(z.string().default("")),
+          pool: z.string().optional(),
+          readOnly: z.boolean().optional(),
+          secretRef: z
+            .object({
+              name: z.string().optional(),
+              namespace: z.string().optional(),
+            })
+            .optional(),
+          user: z.string().optional(),
+        })
+        .optional(),
+      scaleIO: z
+        .object({
+          fsType: z.string().optional(),
+          gateway: z.string().default(""),
+          protectionDomain: z.string().optional(),
+          readOnly: z.boolean().optional(),
+          secretRef: z.object({
             name: z.string().optional(),
             namespace: z.string().optional(),
-            resourceVersion: z.string().optional(),
-            uid: z.string().optional(),
-          })
-          .optional(),
-        volumeName: z.string().optional(),
-        volumeNamespace: z.string().optional(),
-      })
-      .optional(),
-    volumeMode: z.string().optional(),
-    vsphereVolume: z
-      .object({
-        fsType: z.string().optional(),
-        storagePolicyID: z.string().optional(),
-        storagePolicyName: z.string().optional(),
-        volumePath: z.string().default(""),
-      })
-      .optional(),
+          }),
+          sslEnabled: z.boolean().optional(),
+          storageMode: z.string().optional(),
+          storagePool: z.string().optional(),
+          system: z.string().default(""),
+          volumeName: z.string().optional(),
+        })
+        .optional(),
+      storageClassName: z.string().optional(),
+      storageos: z
+        .object({
+          fsType: z.string().optional(),
+          readOnly: z.boolean().optional(),
+          secretRef: z
+            .object({
+              apiVersion: z.string().optional(),
+              fieldPath: z.string().optional(),
+              kind: z.string().optional(),
+              name: z.string().optional(),
+              namespace: z.string().optional(),
+              resourceVersion: z.string().optional(),
+              uid: z.string().optional(),
+            })
+            .optional(),
+          volumeName: z.string().optional(),
+          volumeNamespace: z.string().optional(),
+        })
+        .optional(),
+      volumeMode: z.string().optional(),
+      vsphereVolume: z
+        .object({
+          fsType: z.string().optional(),
+          storagePolicyID: z.string().optional(),
+          storagePolicyName: z.string().optional(),
+          volumePath: z.string().default(""),
+        })
+        .optional(),
+    },
+    status: {
+      message: z.string().optional(),
+      phase: z
+        .enum(["Available", "Bound", "Failed", "Pending", "Released"])
+        .optional(),
+      reason: z.string().optional(),
+    },
   },
-  status: {
-    message: z.string().optional(),
-    phase: z
-      .enum(["Available", "Bound", "Failed", "Pending", "Released"])
-      .optional(),
-    reason: z.string().optional(),
-  },
-});
+);
 
 export const pod = /* @__PURE__ */ resource("core/v1", "Pod", {
   scope: "Namespaced",
@@ -5420,55 +5424,63 @@ export const replicationController = /* @__PURE__ */ resource(
   },
 );
 
-export const resourceQuota = /* @__PURE__ */ resource("core/v1", "ResourceQuota", {
-  scope: "Namespaced",
-  spec: {
-    hard: z.record(z.string().default({})).optional(),
-    scopeSelector: z
-      .object({
-        matchExpressions: z
-          .array(
-            z
-              .object({
-                operator: z
-                  .enum(["DoesNotExist", "Exists", "In", "NotIn"])
-                  .default(""),
-                scopeName: z
-                  .enum([
-                    "BestEffort",
-                    "CrossNamespacePodAffinity",
-                    "NotBestEffort",
-                    "NotTerminating",
-                    "PriorityClass",
-                    "Terminating",
-                  ])
-                  .default(""),
-                values: z.array(z.string().default("")).optional(),
-              })
-              .default({}),
-          )
-          .optional(),
-      })
-      .optional(),
-    scopes: z.array(z.string().default("")).optional(),
+export const resourceQuota = /* @__PURE__ */ resource(
+  "core/v1",
+  "ResourceQuota",
+  {
+    scope: "Namespaced",
+    spec: {
+      hard: z.record(z.string().default({})).optional(),
+      scopeSelector: z
+        .object({
+          matchExpressions: z
+            .array(
+              z
+                .object({
+                  operator: z
+                    .enum(["DoesNotExist", "Exists", "In", "NotIn"])
+                    .default(""),
+                  scopeName: z
+                    .enum([
+                      "BestEffort",
+                      "CrossNamespacePodAffinity",
+                      "NotBestEffort",
+                      "NotTerminating",
+                      "PriorityClass",
+                      "Terminating",
+                    ])
+                    .default(""),
+                  values: z.array(z.string().default("")).optional(),
+                })
+                .default({}),
+            )
+            .optional(),
+        })
+        .optional(),
+      scopes: z.array(z.string().default("")).optional(),
+    },
+    status: {
+      hard: z.record(z.string().default({})).optional(),
+      used: z.record(z.string().default({})).optional(),
+    },
   },
-  status: {
-    hard: z.record(z.string().default({})).optional(),
-    used: z.record(z.string().default({})).optional(),
-  },
-});
+);
 
 export const secret = /* @__PURE__ */ resource("core/v1", "Secret", {
   scope: "Namespaced",
   spec: {},
 });
 
-export const serviceAccount = /* @__PURE__ */ resource("core/v1", "ServiceAccount", {
-  scope: "Namespaced",
-  spec: {},
-});
+export const serviceAccount = /* @__PURE__ */ resource(
+  "core/v1",
+  "ServiceAccount",
+  {
+    scope: "Namespaced",
+    spec: {},
+  },
+);
 
-export const service = /* @__PURE__ */ resource("core/v1", "Service", {
+export const service = /* @__PURE__ */ resource("v1", "Service", {
   scope: "Namespaced",
   spec: {
     allocateLoadBalancerNodePorts: z.boolean().optional(),

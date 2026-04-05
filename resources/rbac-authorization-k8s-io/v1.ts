@@ -6,7 +6,7 @@
 
 import { resource } from "../../";
 
-export const clusterRoleBinding = resource(
+export const clusterRoleBinding = /* @__PURE__ */ resource(
   "rbac.authorization.k8s.io/v1",
   "ClusterRoleBinding",
   {
@@ -15,7 +15,7 @@ export const clusterRoleBinding = resource(
   },
 );
 
-export const clusterRole = resource(
+export const clusterRole = /* @__PURE__ */ resource(
   "rbac.authorization.k8s.io/v1",
   "ClusterRole",
   {
@@ -24,7 +24,7 @@ export const clusterRole = resource(
   },
 );
 
-export const roleBinding = resource(
+export const roleBinding = /* @__PURE__ */ resource(
   "rbac.authorization.k8s.io/v1",
   "RoleBinding",
   {
@@ -33,7 +33,7 @@ export const roleBinding = resource(
   },
 );
 
-export const role = resource("rbac.authorization.k8s.io/v1", "Role", {
+export const role = /* @__PURE__ */ resource("rbac.authorization.k8s.io/v1", "Role", {
   scope: "Namespaced",
   spec: {},
 });

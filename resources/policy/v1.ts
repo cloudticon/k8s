@@ -6,7 +6,7 @@
 
 import { resource, z } from "../../";
 
-export const podDisruptionBudget = resource(
+export const podDisruptionBudget = /* @__PURE__ */ resource(
   "policy/v1",
   "PodDisruptionBudget",
   {

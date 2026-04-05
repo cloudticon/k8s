@@ -6,7 +6,7 @@
 
 import { resource, z } from "../../";
 
-export const daemonSet = resource("apps/v1", "DaemonSet", {
+export const daemonSet = /* @__PURE__ */ resource("apps/v1", "DaemonSet", {
   scope: "Namespaced",
   spec: {
     minReadySeconds: z.number().optional(),
@@ -1329,7 +1329,7 @@ export const daemonSet = resource("apps/v1", "DaemonSet", {
   },
 });
 
-export const deployment = resource("apps/v1", "Deployment", {
+export const deployment = /* @__PURE__ */ resource("apps/v1", "Deployment", {
   scope: "Namespaced",
   spec: {
     minReadySeconds: z.number().optional(),
@@ -2654,7 +2654,7 @@ export const deployment = resource("apps/v1", "Deployment", {
   },
 });
 
-export const replicaSet = resource("apps/v1", "ReplicaSet", {
+export const replicaSet = /* @__PURE__ */ resource("apps/v1", "ReplicaSet", {
   scope: "Namespaced",
   spec: {
     minReadySeconds: z.number().optional(),
@@ -3966,7 +3966,7 @@ export const replicaSet = resource("apps/v1", "ReplicaSet", {
   },
 });
 
-export const statefulSet = resource("apps/v1", "StatefulSet", {
+export const statefulSet = /* @__PURE__ */ resource("apps/v1", "StatefulSet", {
   scope: "Namespaced",
   spec: {
     minReadySeconds: z.number().optional(),

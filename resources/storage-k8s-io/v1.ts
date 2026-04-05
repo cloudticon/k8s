@@ -6,7 +6,7 @@
 
 import { resource } from "../../";
 
-export const storageClass = resource("storage.k8s.io/v1", "StorageClass", {
+export const storageClass = /* @__PURE__ */ resource("storage.k8s.io/v1", "StorageClass", {
   scope: "Cluster",
   spec: {},
 });

@@ -6,7 +6,7 @@
 
 import { resource, z } from "https://github.com/cloudticon/k8s@master";
 
-export const certificateRequest = resource("cert-manager.io/v1", "CertificateRequest", {
+export const certificateRequest = /* @__PURE__ */ resource("cert-manager.io/v1", "CertificateRequest", {
   scope: "Namespaced",
   shortNames: ["cr","crs"],
   spec: {
@@ -38,7 +38,7 @@ export const certificateRequest = resource("cert-manager.io/v1", "CertificateReq
   },
 });
 
-export const certificate = resource("cert-manager.io/v1", "Certificate", {
+export const certificate = /* @__PURE__ */ resource("cert-manager.io/v1", "Certificate", {
   scope: "Namespaced",
   shortNames: ["cert","certs"],
   spec: {
@@ -144,7 +144,7 @@ export const certificate = resource("cert-manager.io/v1", "Certificate", {
   },
 });
 
-export const clusterIssuer = resource("cert-manager.io/v1", "ClusterIssuer", {
+export const clusterIssuer = /* @__PURE__ */ resource("cert-manager.io/v1", "ClusterIssuer", {
   scope: "Cluster",
   shortNames: ["ciss"],
   spec: {
@@ -752,7 +752,7 @@ export const clusterIssuer = resource("cert-manager.io/v1", "ClusterIssuer", {
   },
 });
 
-export const issuer = resource("cert-manager.io/v1", "Issuer", {
+export const issuer = /* @__PURE__ */ resource("cert-manager.io/v1", "Issuer", {
   scope: "Namespaced",
   shortNames: ["iss"],
   spec: {

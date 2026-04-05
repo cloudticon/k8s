@@ -6,7 +6,7 @@
 
 import { resource, z } from "../../";
 
-export const authorizationPolicy = resource(
+export const authorizationPolicy = /* @__PURE__ */ resource(
   "security.istio.io/v1",
   "AuthorizationPolicy",
   {
@@ -131,7 +131,7 @@ export const authorizationPolicy = resource(
   },
 );
 
-export const peerAuthentication = resource(
+export const peerAuthentication = /* @__PURE__ */ resource(
   "security.istio.io/v1",
   "PeerAuthentication",
   {
@@ -191,7 +191,7 @@ export const peerAuthentication = resource(
   },
 );
 
-export const requestAuthentication = resource(
+export const requestAuthentication = /* @__PURE__ */ resource(
   "security.istio.io/v1",
   "RequestAuthentication",
   {

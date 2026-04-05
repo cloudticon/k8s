@@ -6,7 +6,7 @@
 
 import { resource, z } from "../../";
 
-export const astro = resource("cms.cloudticon.com/v1", "Astro", {
+export const astro = /* @__PURE__ */ resource("cms.cloudticon.com/v1", "Astro", {
   scope: "Namespaced",
   spec: {
     baseHref: z.string().optional(),
@@ -61,7 +61,7 @@ export const astro = resource("cms.cloudticon.com/v1", "Astro", {
   },
 });
 
-export const environment = resource("cms.cloudticon.com/v1", "Environment", {
+export const environment = /* @__PURE__ */ resource("cms.cloudticon.com/v1", "Environment", {
   scope: "Namespaced",
   spec: {
     description: z.string().optional(),
@@ -102,7 +102,7 @@ export const environment = resource("cms.cloudticon.com/v1", "Environment", {
   },
 });
 
-export const mysql = resource("cms.cloudticon.com/v1", "Mysql", {
+export const mysql = /* @__PURE__ */ resource("cms.cloudticon.com/v1", "Mysql", {
   scope: "Namespaced",
   spec: {
     databases: z
@@ -169,7 +169,7 @@ export const mysql = resource("cms.cloudticon.com/v1", "Mysql", {
   },
 });
 
-export const strapi = resource("cms.cloudticon.com/v1", "Strapi", {
+export const strapi = /* @__PURE__ */ resource("cms.cloudticon.com/v1", "Strapi", {
   scope: "Namespaced",
   spec: {
     database: z
@@ -236,7 +236,7 @@ export const strapi = resource("cms.cloudticon.com/v1", "Strapi", {
   },
 });
 
-export const wordpress = resource("cms.cloudticon.com/v1", "Wordpress", {
+export const wordpress = /* @__PURE__ */ resource("cms.cloudticon.com/v1", "Wordpress", {
   scope: "Namespaced",
   spec: {
     database: z

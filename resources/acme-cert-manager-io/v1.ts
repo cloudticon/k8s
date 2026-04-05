@@ -6,7 +6,7 @@
 
 import { resource, z } from "https://github.com/cloudticon/k8s@master";
 
-export const challenge = resource("acme.cert-manager.io/v1", "Challenge", {
+export const challenge = /* @__PURE__ */ resource("acme.cert-manager.io/v1", "Challenge", {
   scope: "Namespaced",
   spec: {
     authorizationURL: z.string(),
@@ -514,7 +514,7 @@ export const challenge = resource("acme.cert-manager.io/v1", "Challenge", {
   },
 });
 
-export const order = resource("acme.cert-manager.io/v1", "Order", {
+export const order = /* @__PURE__ */ resource("acme.cert-manager.io/v1", "Order", {
   scope: "Namespaced",
   spec: {
     commonName: z.string().optional(),

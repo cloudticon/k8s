@@ -6,7 +6,7 @@
 
 import { resource, z } from "../../";
 
-export const telemetry = resource("telemetry.istio.io/v1alpha1", "Telemetry", {
+export const telemetry = /* @__PURE__ */ resource("telemetry.istio.io/v1alpha1", "Telemetry", {
   scope: "Namespaced",
   shortNames: ["telemetry"],
   spec: {

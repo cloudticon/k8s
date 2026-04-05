@@ -6,7 +6,7 @@
 
 import { resource, z } from "../../";
 
-export const destinationRule = resource(
+export const destinationRule = /* @__PURE__ */ resource(
   "networking.istio.io/v1alpha3",
   "DestinationRule",
   {
@@ -687,7 +687,7 @@ export const destinationRule = resource(
   },
 );
 
-export const envoyFilter = resource(
+export const envoyFilter = /* @__PURE__ */ resource(
   "networking.istio.io/v1alpha3",
   "EnvoyFilter",
   {
@@ -865,7 +865,7 @@ export const envoyFilter = resource(
   },
 );
 
-export const gateway = resource("networking.istio.io/v1alpha3", "Gateway", {
+export const gateway = /* @__PURE__ */ resource("networking.istio.io/v1alpha3", "Gateway", {
   scope: "Namespaced",
   shortNames: ["gw"],
   spec: {
@@ -960,7 +960,7 @@ export const gateway = resource("networking.istio.io/v1alpha3", "Gateway", {
   },
 });
 
-export const serviceEntry = resource(
+export const serviceEntry = /* @__PURE__ */ resource(
   "networking.istio.io/v1alpha3",
   "ServiceEntry",
   {
@@ -1037,7 +1037,7 @@ export const serviceEntry = resource(
   },
 );
 
-export const sidecar = resource("networking.istio.io/v1alpha3", "Sidecar", {
+export const sidecar = /* @__PURE__ */ resource("networking.istio.io/v1alpha3", "Sidecar", {
   scope: "Namespaced",
   spec: {
     egress: z
@@ -1233,7 +1233,7 @@ export const sidecar = resource("networking.istio.io/v1alpha3", "Sidecar", {
   },
 });
 
-export const virtualService = resource(
+export const virtualService = /* @__PURE__ */ resource(
   "networking.istio.io/v1alpha3",
   "VirtualService",
   {
@@ -1610,7 +1610,7 @@ export const virtualService = resource(
   },
 );
 
-export const workloadEntry = resource(
+export const workloadEntry = /* @__PURE__ */ resource(
   "networking.istio.io/v1alpha3",
   "WorkloadEntry",
   {
@@ -1658,7 +1658,7 @@ export const workloadEntry = resource(
   },
 );
 
-export const workloadGroup = resource(
+export const workloadGroup = /* @__PURE__ */ resource(
   "networking.istio.io/v1alpha3",
   "WorkloadGroup",
   {

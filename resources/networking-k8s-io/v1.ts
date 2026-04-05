@@ -6,7 +6,7 @@
 
 import { resource, z } from "../../";
 
-export const ingressClass = resource("networking.k8s.io/v1", "IngressClass", {
+export const ingressClass = /* @__PURE__ */ resource("networking.k8s.io/v1", "IngressClass", {
   scope: "Cluster",
   spec: {
     controller: z.string().optional(),
@@ -22,7 +22,7 @@ export const ingressClass = resource("networking.k8s.io/v1", "IngressClass", {
   },
 });
 
-export const ingress = resource("networking.k8s.io/v1", "Ingress", {
+export const ingress = /* @__PURE__ */ resource("networking.k8s.io/v1", "Ingress", {
   scope: "Namespaced",
   spec: {
     defaultBackend: z
@@ -131,7 +131,7 @@ export const ingress = resource("networking.k8s.io/v1", "Ingress", {
   },
 });
 
-export const networkPolicy = resource("networking.k8s.io/v1", "NetworkPolicy", {
+export const networkPolicy = /* @__PURE__ */ resource("networking.k8s.io/v1", "NetworkPolicy", {
   scope: "Namespaced",
   spec: {
     egress: z

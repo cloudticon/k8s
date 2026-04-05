@@ -6,7 +6,7 @@
 
 import { resource, z } from "../../";
 
-export const app = resource("apps.cloudticon.com/v1alpha1", "App", {
+export const app = /* @__PURE__ */ resource("apps.cloudticon.com/v1alpha1", "App", {
   scope: "Namespaced",
   spec: {
     discordChannelId: z.string().optional(),
@@ -64,7 +64,7 @@ export const app = resource("apps.cloudticon.com/v1alpha1", "App", {
   },
 });
 
-export const hasura = resource("apps.cloudticon.com/v1alpha1", "Hasura", {
+export const hasura = /* @__PURE__ */ resource("apps.cloudticon.com/v1alpha1", "Hasura", {
   scope: "Namespaced",
   spec: {
     adminSecret: z.object({
@@ -203,7 +203,7 @@ export const hasura = resource("apps.cloudticon.com/v1alpha1", "Hasura", {
   },
 });
 
-export const importedSecret = resource(
+export const importedSecret = /* @__PURE__ */ resource(
   "apps.cloudticon.com/v1alpha1",
   "ImportedSecret",
   {
@@ -217,7 +217,7 @@ export const importedSecret = resource(
   },
 );
 
-export const postgres = resource("apps.cloudticon.com/v1alpha1", "Postgres", {
+export const postgres = /* @__PURE__ */ resource("apps.cloudticon.com/v1alpha1", "Postgres", {
   scope: "Namespaced",
   spec: {
     affinity: z
@@ -659,7 +659,7 @@ export const postgres = resource("apps.cloudticon.com/v1alpha1", "Postgres", {
   },
 });
 
-export const projectSecrets = resource(
+export const projectSecrets = /* @__PURE__ */ resource(
   "apps.cloudticon.com/v1alpha1",
   "ProjectSecrets",
   {

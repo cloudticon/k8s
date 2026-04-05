@@ -6,17 +6,17 @@
 
 import { resource, z } from "../../";
 
-export const configMap = resource("core/v1", "ConfigMap", {
+export const configMap = /* @__PURE__ */ resource("core/v1", "ConfigMap", {
   scope: "Namespaced",
   spec: {},
 });
 
-export const endpoints = resource("core/v1", "Endpoints", {
+export const endpoints = /* @__PURE__ */ resource("core/v1", "Endpoints", {
   scope: "Namespaced",
   spec: {},
 });
 
-export const limitRange = resource("core/v1", "LimitRange", {
+export const limitRange = /* @__PURE__ */ resource("core/v1", "LimitRange", {
   scope: "Namespaced",
   spec: {
     limits: z.array(
@@ -34,7 +34,7 @@ export const limitRange = resource("core/v1", "LimitRange", {
   },
 });
 
-export const namespace = resource("core/v1", "Namespace", {
+export const namespace = /* @__PURE__ */ resource("core/v1", "Namespace", {
   scope: "Cluster",
   spec: {
     finalizers: z.array(z.string().default("")).optional(),
@@ -57,7 +57,7 @@ export const namespace = resource("core/v1", "Namespace", {
   },
 });
 
-export const node = resource("core/v1", "Node", {
+export const node = /* @__PURE__ */ resource("core/v1", "Node", {
   scope: "Cluster",
   spec: {
     configSource: z
@@ -212,7 +212,7 @@ export const node = resource("core/v1", "Node", {
   },
 });
 
-export const persistentVolumeClaim = resource(
+export const persistentVolumeClaim = /* @__PURE__ */ resource(
   "core/v1",
   "PersistentVolumeClaim",
   {
@@ -293,7 +293,7 @@ export const persistentVolumeClaim = resource(
   },
 );
 
-export const persistentVolume = resource("core/v1", "PersistentVolume", {
+export const persistentVolume = /* @__PURE__ */ resource("core/v1", "PersistentVolume", {
   scope: "Cluster",
   spec: {
     accessModes: z.array(z.string().default("")).optional(),
@@ -640,7 +640,7 @@ export const persistentVolume = resource("core/v1", "PersistentVolume", {
   },
 });
 
-export const pod = resource("core/v1", "Pod", {
+export const pod = /* @__PURE__ */ resource("core/v1", "Pod", {
   scope: "Namespaced",
   spec: {
     activeDeadlineSeconds: z.number().optional(),
@@ -3062,7 +3062,7 @@ export const pod = resource("core/v1", "Pod", {
   },
 });
 
-export const replicationController = resource(
+export const replicationController = /* @__PURE__ */ resource(
   "core/v1",
   "ReplicationController",
   {
@@ -5420,7 +5420,7 @@ export const replicationController = resource(
   },
 );
 
-export const resourceQuota = resource("core/v1", "ResourceQuota", {
+export const resourceQuota = /* @__PURE__ */ resource("core/v1", "ResourceQuota", {
   scope: "Namespaced",
   spec: {
     hard: z.record(z.string().default({})).optional(),
@@ -5458,17 +5458,17 @@ export const resourceQuota = resource("core/v1", "ResourceQuota", {
   },
 });
 
-export const secret = resource("core/v1", "Secret", {
+export const secret = /* @__PURE__ */ resource("core/v1", "Secret", {
   scope: "Namespaced",
   spec: {},
 });
 
-export const serviceAccount = resource("core/v1", "ServiceAccount", {
+export const serviceAccount = /* @__PURE__ */ resource("core/v1", "ServiceAccount", {
   scope: "Namespaced",
   spec: {},
 });
 
-export const service = resource("core/v1", "Service", {
+export const service = /* @__PURE__ */ resource("core/v1", "Service", {
   scope: "Namespaced",
   spec: {
     allocateLoadBalancerNodePorts: z.boolean().optional(),

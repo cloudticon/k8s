@@ -6,7 +6,7 @@
 
 import { resource, z } from "../../";
 
-export const k3sCluster = resource("cluster.cloudticon.com/v1", "K3sCluster", {
+export const k3sCluster = /* @__PURE__ */ resource("cluster.cloudticon.com/v1", "K3sCluster", {
   scope: "Cluster",
   spec: {
     infisical: z.object({
@@ -30,7 +30,7 @@ export const k3sCluster = resource("cluster.cloudticon.com/v1", "K3sCluster", {
   },
 });
 
-export const k3sNode = resource("cluster.cloudticon.com/v1", "K3sNode", {
+export const k3sNode = /* @__PURE__ */ resource("cluster.cloudticon.com/v1", "K3sNode", {
   scope: "Namespaced",
   spec: {
     serverType: z.string(),
@@ -47,7 +47,7 @@ export const k3sNode = resource("cluster.cloudticon.com/v1", "K3sNode", {
   },
 });
 
-export const virtualMachine = resource(
+export const virtualMachine = /* @__PURE__ */ resource(
   "cluster.cloudticon.com/v1",
   "VirtualMachine",
   {

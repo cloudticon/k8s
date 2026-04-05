@@ -6,7 +6,7 @@
 
 import { resource, z } from "../../";
 
-export const wasmPlugin = resource(
+export const wasmPlugin = /* @__PURE__ */ resource(
   "extensions.istio.io/v1alpha1",
   "WasmPlugin",
   {

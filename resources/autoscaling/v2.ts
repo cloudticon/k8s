@@ -6,7 +6,7 @@
 
 import { resource, z } from "../../";
 
-export const horizontalPodAutoscaler = resource(
+export const horizontalPodAutoscaler = /* @__PURE__ */ resource(
   "autoscaling/v2",
   "HorizontalPodAutoscaler",
   {

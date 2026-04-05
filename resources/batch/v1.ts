@@ -6,7 +6,7 @@
 
 import { resource, z } from "../../";
 
-export const cronJob = resource("batch/v1", "CronJob", {
+export const cronJob = /* @__PURE__ */ resource("batch/v1", "CronJob", {
   scope: "Namespaced",
   spec: {
     concurrencyPolicy: z.enum(["Allow", "Forbid", "Replace"]).optional(),
@@ -2629,7 +2629,7 @@ export const cronJob = resource("batch/v1", "CronJob", {
   },
 });
 
-export const job = resource("batch/v1", "Job", {
+export const job = /* @__PURE__ */ resource("batch/v1", "Job", {
   scope: "Namespaced",
   spec: {
     activeDeadlineSeconds: z.number().optional(),

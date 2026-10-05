@@ -167,7 +167,8 @@ describe("operator builder", () => {
   it("infers reconcile cr type from watched resource", () => {
     operator(watchRes).reconcile((cr) => {
       expectTypeOf(cr.spec.image).toEqualTypeOf<string>();
-      expectTypeOf(cr.spec.replicas).toEqualTypeOf<number>();
+      // `.default()` makes a field optional in the inferred type (schema.test.ts).
+      expectTypeOf(cr.spec.replicas).toEqualTypeOf<number | undefined>();
       expectTypeOf(cr.metadata.name).toEqualTypeOf<string>();
       return Result.ok();
     });

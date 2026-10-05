@@ -6,17 +6,86 @@
 
 import { resource, z } from "../../";
 
-export const configMap = /* @__PURE__ */ resource("core/v1", "ConfigMap", {
+export const configMap = /* @__PURE__ */ resource("v1", "ConfigMap", {
   scope: "Namespaced",
-  spec: {},
+  topLevel: {
+    binaryData: z.record(z.string()).optional(),
+    data: z.record(z.string().default("")).optional(),
+    immutable: z.boolean().optional(),
+  },
 });
 
-export const endpoints = /* @__PURE__ */ resource("core/v1", "Endpoints", {
+export const endpoints = /* @__PURE__ */ resource("v1", "Endpoints", {
   scope: "Namespaced",
-  spec: {},
+  topLevel: {
+    subsets: z
+      .array(
+        z
+          .object({
+            addresses: z
+              .array(
+                z
+                  .object({
+                    hostname: z.string().optional(),
+                    ip: z.string().default(""),
+                    nodeName: z.string().optional(),
+                    targetRef: z
+                      .object({
+                        apiVersion: z.string().optional(),
+                        fieldPath: z.string().optional(),
+                        kind: z.string().optional(),
+                        name: z.string().optional(),
+                        namespace: z.string().optional(),
+                        resourceVersion: z.string().optional(),
+                        uid: z.string().optional(),
+                      })
+                      .optional(),
+                  })
+                  .default({}),
+              )
+              .optional(),
+            notReadyAddresses: z
+              .array(
+                z
+                  .object({
+                    hostname: z.string().optional(),
+                    ip: z.string().default(""),
+                    nodeName: z.string().optional(),
+                    targetRef: z
+                      .object({
+                        apiVersion: z.string().optional(),
+                        fieldPath: z.string().optional(),
+                        kind: z.string().optional(),
+                        name: z.string().optional(),
+                        namespace: z.string().optional(),
+                        resourceVersion: z.string().optional(),
+                        uid: z.string().optional(),
+                      })
+                      .optional(),
+                  })
+                  .default({}),
+              )
+              .optional(),
+            ports: z
+              .array(
+                z
+                  .object({
+                    appProtocol: z.string().optional(),
+                    name: z.string().optional(),
+                    port: z.number().default(0),
+                    protocol: z.enum(["SCTP", "TCP", "UDP"]).optional(),
+                  })
+                  .default({}),
+              )
+              .optional(),
+          })
+          .default({}),
+      )
+      .optional(),
+  },
 });
 
-export const limitRange = /* @__PURE__ */ resource("core/v1", "LimitRange", {
+export const limitRange = /* @__PURE__ */ resource("v1", "LimitRange", {
   scope: "Namespaced",
   spec: {
     limits: z.array(
@@ -34,7 +103,7 @@ export const limitRange = /* @__PURE__ */ resource("core/v1", "LimitRange", {
   },
 });
 
-export const namespace = /* @__PURE__ */ resource("core/v1", "Namespace", {
+export const namespace = /* @__PURE__ */ resource("v1", "Namespace", {
   scope: "Cluster",
   spec: {
     finalizers: z.array(z.string().default("")).optional(),
@@ -57,7 +126,7 @@ export const namespace = /* @__PURE__ */ resource("core/v1", "Namespace", {
   },
 });
 
-export const node = /* @__PURE__ */ resource("core/v1", "Node", {
+export const node = /* @__PURE__ */ resource("v1", "Node", {
   scope: "Cluster",
   spec: {
     configSource: z
@@ -213,7 +282,7 @@ export const node = /* @__PURE__ */ resource("core/v1", "Node", {
 });
 
 export const persistentVolumeClaim = /* @__PURE__ */ resource(
-  "core/v1",
+  "v1",
   "PersistentVolumeClaim",
   {
     scope: "Namespaced",
@@ -294,7 +363,7 @@ export const persistentVolumeClaim = /* @__PURE__ */ resource(
 );
 
 export const persistentVolume = /* @__PURE__ */ resource(
-  "core/v1",
+  "v1",
   "PersistentVolume",
   {
     scope: "Cluster",
@@ -644,7 +713,7 @@ export const persistentVolume = /* @__PURE__ */ resource(
   },
 );
 
-export const pod = /* @__PURE__ */ resource("core/v1", "Pod", {
+export const pod = /* @__PURE__ */ resource("v1", "Pod", {
   scope: "Namespaced",
   spec: {
     activeDeadlineSeconds: z.number().optional(),
@@ -3067,7 +3136,7 @@ export const pod = /* @__PURE__ */ resource("core/v1", "Pod", {
 });
 
 export const replicationController = /* @__PURE__ */ resource(
-  "core/v1",
+  "v1",
   "ReplicationController",
   {
     scope: "Namespaced",
@@ -5425,7 +5494,7 @@ export const replicationController = /* @__PURE__ */ resource(
 );
 
 export const resourceQuota = /* @__PURE__ */ resource(
-  "core/v1",
+  "v1",
   "ResourceQuota",
   {
     scope: "Namespaced",
@@ -5466,19 +5535,46 @@ export const resourceQuota = /* @__PURE__ */ resource(
   },
 );
 
-export const secret = /* @__PURE__ */ resource("core/v1", "Secret", {
+export const secret = /* @__PURE__ */ resource("v1", "Secret", {
   scope: "Namespaced",
-  spec: {},
+  topLevel: {
+    data: z.record(z.string()).optional(),
+    immutable: z.boolean().optional(),
+    stringData: z.record(z.string().default("")).optional(),
+    type: z.string().optional(),
+  },
 });
 
-export const serviceAccount = /* @__PURE__ */ resource(
-  "core/v1",
-  "ServiceAccount",
-  {
-    scope: "Namespaced",
-    spec: {},
+export const serviceAccount = /* @__PURE__ */ resource("v1", "ServiceAccount", {
+  scope: "Namespaced",
+  topLevel: {
+    automountServiceAccountToken: z.boolean().optional(),
+    imagePullSecrets: z
+      .array(
+        z
+          .object({
+            name: z.string().optional(),
+          })
+          .default({}),
+      )
+      .optional(),
+    secrets: z
+      .array(
+        z
+          .object({
+            apiVersion: z.string().optional(),
+            fieldPath: z.string().optional(),
+            kind: z.string().optional(),
+            name: z.string().optional(),
+            namespace: z.string().optional(),
+            resourceVersion: z.string().optional(),
+            uid: z.string().optional(),
+          })
+          .default({}),
+      )
+      .optional(),
   },
-);
+});
 
 export const service = /* @__PURE__ */ resource("v1", "Service", {
   scope: "Namespaced",

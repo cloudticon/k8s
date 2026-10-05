@@ -4,7 +4,7 @@
  * DO NOT MODIFY IT BY HAND.
  */
 
-import { resource, z } from "https://github.com/cloudticon/k8s@master";
+import { resource, z } from "../../";
 
 export const challenge = /* @__PURE__ */ resource("acme.cert-manager.io/v1", "Challenge", {
   scope: "Namespaced",

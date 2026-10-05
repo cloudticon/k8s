@@ -9,6 +9,8 @@ export {
   type ResourceArgs,
   type MetadataArgs,
   type ResourceManifest,
+  type ResourceManifestBase,
+  type ResourceFnFor,
 } from "./resource";
 export {
   operator,

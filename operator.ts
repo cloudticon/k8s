@@ -6,11 +6,13 @@ export interface Permission {
   verbs: string[];
 }
 
-type ReconcileFn<TWatch extends ResourceFn<any>> = (
+type ReconcileFn<TWatch extends ResourceFn<any, any>> = (
   cr: ReturnType<TWatch>,
 ) => any;
 
-export interface OperatorConfig<TWatch extends ResourceFn<any> = ResourceFn<any>> {
+export interface OperatorConfig<
+  TWatch extends ResourceFn<any, any> = ResourceFn<any, any>,
+> {
   watch: GVK;
   watchSchema: TWatch["openAPISchema"];
   watchScope: ResourceScope;
@@ -24,17 +26,17 @@ export interface OperatorConfig<TWatch extends ResourceFn<any> = ResourceFn<any>
 }
 
 export interface OperatorBuilder<
-  TWatch extends ResourceFn<any> = ResourceFn<any>,
+  TWatch extends ResourceFn<any, any> = ResourceFn<any, any>,
 > {
-  manages(...resources: ResourceFn<any>[]): OperatorBuilder<TWatch>;
-  reads(...resources: ResourceFn<any>[]): OperatorBuilder<TWatch>;
+  manages(...resources: ResourceFn<any, any>[]): OperatorBuilder<TWatch>;
+  reads(...resources: ResourceFn<any, any>[]): OperatorBuilder<TWatch>;
   permission(perm: Permission): OperatorBuilder<TWatch>;
   env(...vars: string[]): OperatorBuilder<TWatch>;
   every(interval: string): OperatorBuilder<TWatch>;
   reconcile(fn: ReconcileFn<TWatch>): OperatorBuilder<TWatch>;
 }
 
-export function operator<TWatch extends ResourceFn<any>>(
+export function operator<TWatch extends ResourceFn<any, any>>(
   watchResource: TWatch,
 ): OperatorBuilder<TWatch> {
   const config: OperatorConfig<TWatch> = {

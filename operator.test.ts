@@ -81,6 +81,22 @@ describe("operator builder", () => {
     expect(cfg.reads).toEqual([{ group: "", version: "v1", kind: "Secret" }]);
   });
 
+  it("manages and reads accept kinds without spec", () => {
+    const configMap = resource("v1", "ConfigMap", {
+      topLevel: { data: z.record(z.string()).optional() },
+    });
+
+    operator(watchRes)
+      .manages(configMap)
+      .reads(configMap)
+      .reconcile(() => Result.ok());
+
+    const cfg = (globalThis as any).__ct_operator;
+    const gvk = { group: "", version: "v1", kind: "ConfigMap" };
+    expect(cfg.manages).toEqual([gvk]);
+    expect(cfg.reads).toEqual([gvk]);
+  });
+
   it("permission adds custom RBAC rules", () => {
     operator(watchRes)
       .permission({ apiGroup: "", resources: ["events"], verbs: ["create"] })
